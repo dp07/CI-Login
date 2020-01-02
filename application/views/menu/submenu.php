@@ -6,7 +6,12 @@
 
        <div class="row mt-5">
            <div class="col-lg-10">
-               <?= form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>') ?>
+               <?php if (validation_errors()) : ?>
+                   <div class="alert alert-danger" role="alert">
+                       <?= validation_errors(); ?>
+                   </div>
+               <?php endif; ?>
+               <?= form_error('url', '', '</div>') ?>
                <?= $this->session->flashdata('message'); ?>
                <a class="btn btn-primary mb-3" href="" data-toggle="modal" data-target="#exampleModal">Add New Submenu</a>
                <table class="table table-hover">
@@ -75,7 +80,7 @@
                            <select name="menu" id="menu" class="form-control" placeholder="Menu">
                                <option value="Option">--Option--</option>
                                <?php foreach ($menu as $m) : ?>
-                                   <option value="<?= $m['menu']; ?>"><?= $m['menu']; ?></option>
+                                   <option value="<?= $m['id']; ?>"><?= $m['menu']; ?></option>
                                <?php endforeach; ?>
                            </select>
                        </div>
@@ -86,11 +91,12 @@
                            <input type="text" class="form-control" id="icon" name="icon" placeholder="icon">
                        </div>
                        <div class="form-group">
-                           <select name="active" id="active" class="form-control">
-                               <option value="option">--Option--</option>
-                               <option value="1">1</option>
-                               <option value="2">2</option>
-                           </select>
+                           <div class="form-check">
+                               <input class="form-check-input" type="checkbox" value="1" id="active" name="is_active" checked>
+                               <label class="form-check-label" for="active">
+                                   active
+                               </label>
+                           </div>
                        </div>
                    </div>
                    <div class="modal-footer">

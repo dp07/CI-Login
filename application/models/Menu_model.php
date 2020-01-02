@@ -11,7 +11,6 @@ class Menu_model extends  CI_model
     public function editMenu($id)
     {
         $data = [
-            'id' => $this->input->post('id'),
             'menu' => $this->input->post('editmenu')
         ];
 
@@ -31,5 +30,19 @@ class Menu_model extends  CI_model
         $query = " SELECT user_sub_menu.*, user_menu.menu FROM user_sub_menu JOIN user_menu ON user_sub_menu.menu_id = user_menu.id";
 
         return $this->db->query($query)->result_array();
+    }
+
+    // insert sub menu
+    public function addSubmenu()
+    {
+        $data = [
+            'title' => $this->input->post('submenu', true),
+            'menu_id' => $this->input->post('menu', true),
+            'url' => $this->input->post('url', true),
+            'icon' => $this->input->post('icon', true),
+            'is_active' => $this->input->post('is_active', true)
+        ];
+
+        $this->db->insert('user_sub_menu', $data);
     }
 }

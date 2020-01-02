@@ -6,6 +6,8 @@ class Menu extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        is_logged_in();
+
         $this->load->model('Menu_model');
     }
 
@@ -77,7 +79,9 @@ class Menu extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('submenu', 'Submenu Title', 'required|trim');
-        $this->form_validation->set_rules('submenu', 'Submenu Title', 'required');
+        $this->form_validation->set_rules('menu', 'menu', 'required');
+        $this->form_validation->set_rules('url', 'url', 'required');
+        $this->form_validation->set_rules('icon', 'icon', 'required');
 
         if ($this->form_validation->run() == FALSE) {
 
@@ -88,7 +92,10 @@ class Menu extends CI_Controller
             $this->load->view('menu/submenu', $data);
             $this->load->view('templates/footer_user');
         } else {
-            echo 'OK';
+            $this->Menu_model->addSubmenu();
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Submenu Have Been Added!</div>');
+            redirect('menu/submenu');
         }
     }
 }
